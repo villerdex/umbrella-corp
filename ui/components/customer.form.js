@@ -51,7 +51,6 @@ const CustomerForm = (props) => {
         let _formError = {...formDataError}
         setErrorFormData(_formError)
       }
-      console.log(formDataError)
 
     }
 
@@ -66,8 +65,6 @@ const CustomerForm = (props) => {
     }
 
     const classes = props.classes;
-
-    console.log('rerenders')
 
     const nameErrorMessage = formDataError.name ? 'customer name is required' : ''
     const contactPersonErrorMessage = formDataError.person_contact ? 'contact person is required' : ''
