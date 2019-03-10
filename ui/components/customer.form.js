@@ -72,11 +72,9 @@ const CustomerForm = (props) => {
     const numberEmployeeErrorMessage = formDataError.num_employee ? 'number of employee is required' : ''
     const locationErrorMessage = formDataError.location ? 'location is required' : ''
 
-
-
     return (
-        <div className='row center-xs' >
-                <Paper className='col-md-8 paper'>
+        <div className='row col-xs-12' >
+                <Paper className='col-md-12 paper'>
                   <form className={classes.container} noValidate autoComplete="off">
 
                       <div className='row col-md-6' >
@@ -156,10 +154,11 @@ const CustomerForm = (props) => {
                           />      
                       </div>
                   </form>
-
-                  <Button variant="contained" color="primary" onClick={() =>  onSubmit()}>
-                    Add Customer
-                  </Button>
+                  <div className='row col-md-12 center-xs'>
+                    <Button variant="contained" color="primary" onClick={() =>  onSubmit()}>
+                      Add Customer
+                    </Button>
+                  </div>
                 </Paper>
         </div>
     )
