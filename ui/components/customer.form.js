@@ -8,6 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import { addCustomer } from '../actions/actions'
+
 const styles = theme => ({
     container: {
       display: 'flex',
@@ -31,9 +33,9 @@ const CustomerForm = (props) => {
     const initialState = {
       name: '',
       person_contact: '',
-      telphone_number: '',
+      telephone: '',
       location: '',
-      num_employee: ''
+      num_employees: ''
     }
     const error = {}
 
@@ -56,12 +58,20 @@ const CustomerForm = (props) => {
 
     const onSubmit = () => {
       let _errors = {}
+      
       for (var key in formData) {
         if (formData[key] === null || formData[key] === ''){
           _errors[key] = key + ' is required';
         }
       }
-      setErrorFormData(_errors)
+
+      if(Object.keys(_errors).length !== 0 ) {
+        setErrorFormData(_errors)
+        return;
+      }
+
+      // no errors proceed
+      props.dispatch(addCustomer(formData))
     }
 
     const classes = props.classes;
@@ -113,11 +123,11 @@ const CustomerForm = (props) => {
                               label="Telephone number"
                               helperText={'test error'}
                               className={classes.textField}
-                              value={formData.telphone_number}
+                              value={formData.telephone}
                               margin="normal"
-                              onChange={(e) => handleChange(e, 'telphone_number')}
-                              onClick={() => resetValidationOnClickText('telphone_number')}
-                              error={formDataError.telphone_number != null}
+                              onChange={(e) => handleChange(e, 'telephone')}
+                              onClick={() => resetValidationOnClickText('telephone')}
+                              error={formDataError.telephone != null}
                               helperText={telephoneNumberErrorMessage}
                               fullWidth
                               required
@@ -128,11 +138,11 @@ const CustomerForm = (props) => {
                         <TextField
                             label="Number of employees"
                             className={classes.textField}
-                            value={formData.num_employee}
+                            value={formData.num_employees}
                             margin="normal"
-                            onChange={(e) => handleChange(e, 'num_employee')}
-                            onClick={() => resetValidationOnClickText('num_employee')}
-                            error={formDataError.num_employee != null}
+                            onChange={(e) => handleChange(e, 'num_employees')}
+                            onClick={() => resetValidationOnClickText('num_employees')}
+                            error={formDataError.num_employees != null}
                             helperText={numberEmployeeErrorMessage}
                             fullWidth
                             required
@@ -165,4 +175,4 @@ const CustomerForm = (props) => {
 }
 
 // export default withRouter(connect()(CustomerForm))
-export default withStyles(styles)(CustomerForm);
+export default  connect()(withStyles(styles)(CustomerForm));

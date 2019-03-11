@@ -68,7 +68,6 @@ const CustomerList = (props) => {
         //   }
         ]
       }];
-
     
     const filtered = null;
 
