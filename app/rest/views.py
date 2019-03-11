@@ -55,7 +55,7 @@ class CustomerView(APIView):
         # Get object with this pk
         customer = get_object_or_404(Customer.objects.all(), pk=pk)
         customer.delete()
-        return Response({"message": "Article with id `{}` has been deleted.".format(pk)},status=204)
+        return Response({"message": "Customer with id `{}` has been deleted.".format(pk)},status=204)
 
 class WeatherView(APIView):
     #https://openweathermap.org/weather-conditions

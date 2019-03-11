@@ -4,6 +4,7 @@ from .models import Customer
 class CustomerSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
+    id = serializers.IntegerField()
     name = serializers.CharField(max_length=255)
     person_contact = serializers.CharField()
     telephone = serializers.CharField()
@@ -12,7 +13,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ("name", "person_contact", "telephone", "location", "num_employees")
+        fields = ("id", "name", "person_contact", "telephone", "location", "num_employees")
 
     def create(self, validated_data):
         return Customer.objects.create(**validated_data)
