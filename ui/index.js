@@ -17,7 +17,11 @@ import { watcherSaga } from './sagas/saga';
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
-let middleware = compose(applyMiddleware(sagaMiddleware));
+const reduxDevTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+let middleware = process.env.NODE_ENV === 'development' ? compose(applyMiddleware(sagaMiddleware), reduxDevTools) : compose(applyMiddleware(sagaMiddleware));
+
 // let middleware = compose(applyMiddleware(sagaMiddleware));
 
 // create a redux store with our reducer above and middleware
