@@ -12,6 +12,11 @@ const Api = {
         let params = 'customers-weather?&page=1'
         return axiosIntance.get(params)
       },
+
+      addCustomer(customer) {
+        let params = 'customers'
+        return axiosIntance.post(params, customer)
+      },
 }
 
 export default Api 
