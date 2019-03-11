@@ -1,10 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { fetchCustomers } from '../actions/actions' 
+
 import Button from '@material-ui/core/Button';
 
 // Import React Table
@@ -13,37 +13,29 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css';
 import 'react-tabs/style/react-tabs.less';
 
+const mapStateToProps = state => {
+    return {
+        customers: state.customers,
+    };
+};
+
 const CustomerList = (props) => {
 
-    let initialCustomers =  [
-        {
-            "name": "Company",
-            "person_contact": "Orville",
-            "telephone": "1235",
-            "location": "Angeles,Ph",
-            "num_employees": 1,
-            "rain_date": "2019-03-14"
-        },
-        {
-            "name": "Customer from OKC",
-            "person_contact": "Orville",
-            "telephone": "1235",
-            "location": "Oklahoma,US",
-            "num_employees": 1,
-            "rain_date": "2019-03-14"
-        },
-        {
-            "name": "Customer from Tokyo",
-            "person_contact": "Orville",
-            "telephone": "123",
-            "location": "Tokyo,JP",
-            "num_employees": 2,
-            "rain_date": "2019-03-10"
+  const [customers, setCustomers] = useState(initialCustomers)
+
+    useEffect(() => {
+        console.log('dispatch')
+        props.dispatch(fetchCustomers())
+    },  []);
+
+    useEffect(() => {
+        if (props.customers.length > 0) {
+            setCustomers(props.customers)
         }
-    ]
+    },  [props.customers]);
 
-    const [customers, setOrders] = useState(initialCustomers)
-
+    let initialCustomers =  [ ]
+    
     const columns = [{
         Header: 'Customer List',
         columns: [
@@ -93,4 +85,4 @@ const CustomerList = (props) => {
 }
 
 // export default withRouter(connect()(CustomerForm))
-export default connect()(CustomerList);
+export default connect(mapStateToProps)(CustomerList);
