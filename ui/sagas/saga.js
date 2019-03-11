@@ -4,14 +4,14 @@ import Api from '../services/Api.services'
 export function* watcherSaga() {
     yield takeLatest('FETCH_CUSTOMER_LIST', fetchCustomerList);
     yield takeLatest('ADD_CUSTOMER', addCustomer);
+    yield takeLatest('DELETE_CUSTOMER', deleteCustomer);
+
 }
 
 function* addCustomer(payload) {
   try {
     let customer = payload.customer
-    const response = yield call( Api.addCustomer, customer);
-    let result = response.data
-    yield put({ type: 'ADD_CUSTOMER_SUCCESS', result});
+    yield call( Api.addCustomer, customer);
 
     yield fetchCustomerList();
   
@@ -29,5 +29,18 @@ function* fetchCustomerList() {
   
   } catch (error) {
     yield put({ type: 'FETCH_CUSTOMER_LIST_FAIL', error });
+  }
+}
+
+function* deleteCustomer(payload) {
+  try {
+    let customer = payload.customer
+    yield call( Api.deleteCustomer, customer);
+
+    yield fetchCustomerList();
+
+  } catch (error) {
+    console.error(error)
+    yield put({ type: 'DELETE_CUSTOMER_SUCCESS', error });
   }
 }

@@ -17,6 +17,11 @@ const Api = {
         let params = 'customers'
         return axiosIntance.post(params, customer)
       },
+
+      deleteCustomer(customer) {
+        let params = 'customers/' + customer.id
+        return axiosIntance.delete(params)
+      },
 }
 
 export default Api 
