@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 
@@ -12,6 +11,8 @@ import ReactTable from "react-table";
 
 import 'react-table/react-table.css';
 import 'react-tabs/style/react-tabs.less';
+
+import { deleteCustomer } from '../actions/actions'
 
 const mapStateToProps = state => {
     return {
@@ -29,11 +30,14 @@ const CustomerList = (props) => {
     },  []);
 
     useEffect(() => {
-        if (props.customers.length > 0) {
+        if (props.customers) {
             setCustomers(props.customers)
         }
     },  [props.customers]);
 
+    const onDelete = (row) => {
+        props.dispatch(deleteCustomer(row.original))
+    }
     let initialCustomers =  [ ]
     
     const columns = [{
@@ -59,13 +63,20 @@ const CustomerList = (props) => {
             Header: "Date of rain",
             accessor: "rain_date"
           },
-        //   {
-        //     Header: "Select To Deliver",
-        //     accessor: "",
-        //     Cell : row => (
-        //     <input type="checkbox" onChange={() => selectSelectedData(row.original)} name="" value=""/>
-        //     )
-        //   }
+          {
+            Header: "Delete",
+            accessor: "",
+            style: {
+              cursor: "pointer",
+              fontSize: 25,
+              padding: "0",
+              textAlign: "center",
+              userSelect: "none"
+            },
+            Cell : row => (
+              <Button color="secondary" onClick={() => onDelete(row)}> Delete </Button>
+            )
+          }
         ]
       }];
     
@@ -74,7 +85,7 @@ const CustomerList = (props) => {
     return (
         <div className='row col-xs-12' >
             <ReactTable
-                    data={filtered || customers}
+                    data={filtered || customers || []}
                     columns={columns}
                     defaultPageSize={10}
                     className="-striped -highlight"
