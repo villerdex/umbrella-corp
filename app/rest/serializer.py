@@ -4,7 +4,6 @@ from .models import Customer
 class CustomerSerializer(serializers.ModelSerializer):
     """Serializer to map the Model instance into JSON format."""
 
-    id = serializers.IntegerField()
     name = serializers.CharField(max_length=255)
     person_contact = serializers.CharField()
     telephone = serializers.CharField()
