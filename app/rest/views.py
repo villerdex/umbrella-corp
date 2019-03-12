@@ -1,5 +1,6 @@
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.exceptions import ValidationError, ParseError, APIException
 from django.core.paginator import Paginator
@@ -24,7 +25,7 @@ class CustomerView(APIView):
             raise ValidationError('Some error')
    
         customer = customer_serializer.save()
-        return Response({"customers": "Customer success save '{}' ".format(customer)})
+        return Response({"customers": customer_serializer.data})
 
     def get(self, request):
          customers = Customer.objects.all()
@@ -35,10 +36,6 @@ class CustomerView(APIView):
          paginator = Paginator(serializer.data, 10)
          page_paginator = paginator.page(page)
          print(page_paginator.object_list)
-
-        #  for c in page.object_list:
-        #      c["owner"] = 'test'
-        #      print(c["owner"] )
 
          return Response({"customers": page_paginator.object_list})
 
@@ -60,6 +57,13 @@ class CustomerView(APIView):
 class WeatherView(APIView):
     #https://openweathermap.org/weather-conditions
     rain_id = ['2', '3', '5', '615', '616']
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if(request.get_full_path() == '/customers-chart/'):
+            return self.getCustomerOrderByEmployee(request)
+        return super().dispatch(request, *args, **kwargs)
+
     def getWeather(self, location):
 
         open_weather = 'http://api.openweathermap.org/data/2.5/forecast?q={location}&appid=01f6ae18de8fe4c8a2280eeb29f0c0db'
@@ -82,7 +86,7 @@ class WeatherView(APIView):
                 return item['dt']
 
     def get(self, request): 
-         customers = Customer.objects.all()
+         customers = Customer.objects.order_by('-num_employees').all()
          serializer = CustomerSerializer(customers, many=True)
 
          page = request.query_params.get('page', 1); 
@@ -101,5 +105,11 @@ class WeatherView(APIView):
 
          return Response({"customers": page_paginator.object_list})
 
+    def getCustomerOrderByEmployee(self, request):
+      customers = Customer.objects.order_by('-num_employees').all()
+      serializer = CustomerSerializer(customers, many=True)
 
+      print('getCustomerOrderByEmployee', serializer.data)
+
+      return JsonResponse({"customers": serializer.data})
 

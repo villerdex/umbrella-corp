@@ -7,6 +7,7 @@ urlpatterns = {
     path('customers', CustomerView.as_view(), name="getCustomers"),
     path('customers/<int:pk>', CustomerView.as_view(), name="updateCustomer"),
     path('customers-weather/', WeatherView.as_view(), name="getCustomersWeather"),
+    path('customers-chart/', WeatherView.as_view(), name="getCustomersChartr"),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)
