@@ -12,7 +12,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css';
 import 'react-tabs/style/react-tabs.less';
 
-import { deleteCustomer } from '../actions/actions'
+import { deleteCustomer, customerToUpdate } from '../actions/actions'
 
 const mapStateToProps = state => {
     return {
@@ -38,7 +38,12 @@ const CustomerList = (props) => {
     const onDelete = (row) => {
         props.dispatch(deleteCustomer(row.original))
     }
-    let initialCustomers =  [ ]
+
+    const onClickRow = (row) => {
+        console.log(row)
+    }
+
+    let initialCustomers =  []
     
     const columns = [{
         Header: 'Customer List',
@@ -89,6 +94,22 @@ const CustomerList = (props) => {
                     columns={columns}
                     defaultPageSize={10}
                     className="-striped -highlight"
+                    getTdProps={(state, rowInfo, column, instance) => {
+                      return {
+                        onClick: (e, handleOriginal) => {
+                          console.log("It was in this row:", rowInfo.original)
+                          props.dispatch(customerToUpdate(rowInfo.original))
+                          // IMPORTANT! React-Table uses onClick internally to trigger
+                          // events like expanding SubComponents and pivots.
+                          // By default a custom 'onClick' handler will override this functionality.
+                          // If you want to fire the original onClick handler, call the
+                          // 'handleOriginal' function.
+                          if (handleOriginal) {
+                            handleOriginal();
+                          }
+                        }
+                      };
+                    }}
                 />
         </div>
     )
