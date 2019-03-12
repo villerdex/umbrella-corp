@@ -3,3 +3,6 @@
 /env_umbrella
 app/.idea
 .vscode/
+/app/rest/__pycache__
+/app/rest/migrations
+/app/db.sqlite3
