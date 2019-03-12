@@ -1,14 +1,14 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { addCustomer } from '../actions/actions'
+import { addCustomer, updateCustomer } from '../actions/actions'
 
 const styles = theme => ({
     container: {
@@ -25,22 +25,41 @@ const styles = theme => ({
     menu: {
       width: 200,
     },
-  });
-  
+    button: {
+      width: 170
+    }
+});
+
+const mapStateToProps = state => {
+    return {
+      toUpdateCustomer: state.toUpdateCustomer,
+    };
+};
+
 
 const CustomerForm = (props) => {
 
-    const initialState = {
-      name: '',
-      person_contact: '',
-      telephone: '',
-      location: '',
-      num_employees: ''
-    }
-    const error = {}
+  const initialFormState = {
+    name: '',
+    person_contact: '',
+    telephone: '',
+    location: '',
+    num_employees: ''
+  }
 
-    const [formData, setFormData] = useState(initialState);
-    const [formDataError, setErrorFormData] = useState(error);
+  const error = {}
+
+  const [formData, setFormData] = useState(initialFormState);
+  const [formDataError, setErrorFormData] = useState(error);
+  const [isOnUpdate, setIsOnUpdate] = useState(false);
+
+  useEffect(() => {
+    if (props.toUpdateCustomer) {
+        setFormData(props.toUpdateCustomer)
+        setIsOnUpdate(true)
+        setErrorFormData({})
+    }
+  },  [props.toUpdateCustomer]);
 
     const handleChange = (event, fieldName) => {
       let _form = { ...formData, [fieldName] : event.target.value}
@@ -65,13 +84,26 @@ const CustomerForm = (props) => {
         }
       }
 
+      //  errors proceed found return
       if(Object.keys(_errors).length !== 0 ) {
         setErrorFormData(_errors)
         return;
       }
 
-      // no errors proceed
+      if(isOnUpdate) {
+        props.dispatch(updateCustomer(formData))
+        setIsOnUpdate(false)
+        setFormData(initialFormState)
+        return;
+      }
+
       props.dispatch(addCustomer(formData))
+      setFormData(initialFormState)
+    }
+
+    const clearForm = () => { 
+      setFormData(initialFormState)
+      setIsOnUpdate(false)
     }
 
     const classes = props.classes;
@@ -165,9 +197,19 @@ const CustomerForm = (props) => {
                       </div>
                   </form>
                   <div className='row col-md-12 center-xs'>
-                    <Button variant="contained" color="primary" onClick={() =>  onSubmit()}>
-                      Add Customer
-                    </Button>
+                      <div className='row col-md-6 center-xs'>
+                        <Button variant="contained" color="primary" className={classes.button}
+                          onClick={() =>  onSubmit()}>
+                            {isOnUpdate ? 'Update Customer' : 'Add Customer'}
+                        </Button>
+                      </div>
+
+                      <div className='row col-md-6 center-xs'>
+                      <Button variant="outlined" color="primary" className={classes.button}
+                          onClick={() =>  clearForm()}>
+                            Clear
+                       </Button>
+                      </div>
                   </div>
                 </Paper>
         </div>
@@ -175,4 +217,4 @@ const CustomerForm = (props) => {
 }
 
 // export default withRouter(connect()(CustomerForm))
-export default  connect()(withStyles(styles)(CustomerForm));
+export default  connect(mapStateToProps)(withStyles(styles)(CustomerForm));
