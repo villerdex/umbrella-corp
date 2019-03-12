@@ -18,6 +18,11 @@ const Api = {
         return axiosIntance.post(params, customer)
       },
 
+      updateCustomer(customer) {
+        let params = 'customers/' + customer.id
+        return axiosIntance.put(params, customer)
+      },
+
       deleteCustomer(customer) {
         let params = 'customers/' + customer.id
         return axiosIntance.delete(params)
