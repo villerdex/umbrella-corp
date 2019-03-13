@@ -112,7 +112,7 @@ const CustomerForm = (props) => {
     const contactPersonErrorMessage = formDataError.person_contact ? 'contact person is required' : ''
     const telephoneNumberErrorMessage = formDataError.telphone_number ? 'telphone number is required' : ''
     const numberEmployeeErrorMessage = formDataError.num_employee ? 'number of employee is required' : ''
-    const locationErrorMessage = formDataError.location ? 'location is required' : ''
+    const locationErrorMessage = formDataError.location ? 'location is required, format: City(,)Country Code' : ''
 
     return (
         <div className='row col-xs-12' >
@@ -187,6 +187,7 @@ const CustomerForm = (props) => {
                             className={classes.textField}
                             value={formData.location}
                             margin="normal"
+                            placeholder='New york, US'
                             onChange={(e) => handleChange(e, 'location')}
                             onClick={() => resetValidationOnClickText('location')}
                             error={formDataError.location != null}
