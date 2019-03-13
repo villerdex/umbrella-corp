@@ -94,14 +94,7 @@ class WeatherView(APIView):
          paginator = Paginator(serializer.data, 10)
          page_paginator = paginator.page(page)
 
-         for customer in page_paginator.object_list:
-             location = customer["location"];
-             print( location)
-             rain_date = self.getWeather(location)
-             print('rain_date',  rain_date)
-
-             if rain_date is not None:
-                customer['rain_date'] = datetime.datetime.fromtimestamp(rain_date).strftime('%Y-%m-%d')
+         self.getWeatherByList( page_paginator.object_list )
 
          return Response({"customers": page_paginator.object_list})
 
@@ -110,6 +103,15 @@ class WeatherView(APIView):
       serializer = CustomerSerializer(customers, many=True)
 
       print('getCustomerOrderByEmployee', serializer.data)
+      self.getWeatherByList(serializer.data)
 
       return JsonResponse({"customers": serializer.data})
+
+    def getWeatherByList(self, list):
+           for customer in list:
+            location = customer["location"];
+            rain_date = self.getWeather(location)
+
+            if rain_date is not None:
+                customer['rain_date'] = datetime.datetime.fromtimestamp(rain_date).strftime('%Y-%m-%d')
 
