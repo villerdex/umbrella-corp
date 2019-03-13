@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 import { fetchCustomers } from '../actions/actions' 
-
+import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 // Import React Table
@@ -88,7 +88,7 @@ const CustomerList = (props) => {
     const filtered = null;
 
     return (
-        <div className='row col-xs-12' >
+        <div className='col-xs-12' >
             <ReactTable
                     data={filtered || customers || []}
                     columns={columns}
@@ -97,7 +97,6 @@ const CustomerList = (props) => {
                     getTdProps={(state, rowInfo, column, instance) => {
                       return {
                         onClick: (e, handleOriginal) => {
-                          console.log("It was in this row:", rowInfo.original)
                           props.dispatch(customerToUpdate(rowInfo.original))
                           // IMPORTANT! React-Table uses onClick internally to trigger
                           // events like expanding SubComponents and pivots.
