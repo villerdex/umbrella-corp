@@ -69,21 +69,16 @@ class WeatherView(APIView):
         open_weather = 'http://api.openweathermap.org/data/2.5/forecast?q={location}&appid=01f6ae18de8fe4c8a2280eeb29f0c0db'
         open_weather = open_weather.replace('{location}', location)
 
-        print(open_weather)
-
         r = requests.get(open_weather)
         weather_response = r.json()
-
-        if(weather_response['cod'] != 200):
-             APIException('error on runtime fetching weather')
-
-        for item in weather_response['list']:
-            weather = item['weather']
-            weather_id = str(weather[0]['id'])[0]
-           
-            if weather_id in self.rain_id:
-                print('weather_id', weather)
-                return item['dt']
+        if(weather_response['cod'] == "200"):
+            print('weather_response', weather_response['list'])
+            for item in weather_response['list']:
+                weather = item['weather']
+                weather_id = str(weather[0]['id'])[0]
+                if weather_id in self.rain_id:
+                    print('weather_id', weather)
+                    return item['dt']
 
     def get(self, request): 
          customers = Customer.objects.order_by('-num_employees').all()
@@ -102,7 +97,6 @@ class WeatherView(APIView):
       customers = Customer.objects.order_by('-num_employees').all()
       serializer = CustomerSerializer(customers, many=True)
 
-      print('getCustomerOrderByEmployee', serializer.data)
       self.getWeatherByList(serializer.data)
 
       return JsonResponse({"customers": serializer.data})
