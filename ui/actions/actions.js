@@ -4,6 +4,7 @@
 
  //  API call actions
 export const FETCH_CUSTOMER_LIST = 'FETCH_CUSTOMER_LIST'
+export const FETCH_CUSTOMER_CHART = 'FETCH_CUSTOMER_CHART'
 export const ADD_CUSTOMER = 'ADD_CUSTOMER'
 export const DELETE_CUSTOMER = 'DELETE_CUSTOMER'
 export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER'
@@ -13,6 +14,10 @@ export const CUSTOMER_TO_UPDATE = 'CUSTOMER_TO_UPDATE'
 
 export function fetchCustomers(filter) {
   return { type: FETCH_CUSTOMER_LIST, filter }
+}
+
+export function fetchCustomerChart() {
+  return { type: FETCH_CUSTOMER_CHART }
 }
 
 export function addCustomer(customer) {

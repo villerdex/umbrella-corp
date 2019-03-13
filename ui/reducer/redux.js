@@ -2,7 +2,8 @@
 // reducer with initial state
 const initialState = {
   customers: [],
-  toUpdateCustomer: null
+  toUpdateCustomer: null,
+  customerChart: []
 };
 
 export function reducer(state = initialState, action) {
@@ -14,6 +15,9 @@ export function reducer(state = initialState, action) {
     case "CUSTOMER_TO_UPDATE_SUCCESS":
     console.log('saga', action)
       return { ...state, toUpdateCustomer: action.customer };
+    case "FETCH_CUSTOMER_CHART_SUCCESS":
+    console.log('saga', action)
+      return { ...state, customerChart: action.customers };
     default:
       return state;
   }

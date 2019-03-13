@@ -23,6 +23,11 @@ const Api = {
         return axiosIntance.put(params, customer)
       },
 
+      fetchCustomerChart() {
+        let params = 'customers-chart/'
+        return axiosIntance.get(params)
+      },
+      
       deleteCustomer(customer) {
         let params = 'customers/' + customer.id
         return axiosIntance.delete(params)
