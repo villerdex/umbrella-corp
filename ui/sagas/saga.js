@@ -17,7 +17,8 @@ function* addCustomer(payload) {
     yield call( Api.addCustomer, customer);
 
     yield fetchCustomerList();
-  
+    yield fetchCustomerChart();
+
   } catch (error) {
     console.error(error)
     yield put({ type: 'ADD_CUSTOMER_FAIL', error });
@@ -55,12 +56,13 @@ function* customerToUpdate(payload) {
   }
 }
 
-
 function* updateCustomer(payload) {
   try {
     let customer = payload.customer
     yield call( Api.updateCustomer, customer);
+    
     yield fetchCustomerList()
+    yield fetchCustomerChart();
   
   } catch (error) {
     yield put({ type: 'FETCH_CUSTOMER_LIST_FAIL', error });
@@ -73,6 +75,7 @@ function* deleteCustomer(payload) {
     yield call( Api.deleteCustomer, customer);
 
     yield fetchCustomerList();
+    yield fetchCustomerChart();
 
   } catch (error) {
     console.error(error)
