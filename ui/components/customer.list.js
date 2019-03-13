@@ -97,7 +97,9 @@ const CustomerList = (props) => {
                     getTdProps={(state, rowInfo, column, instance) => {
                       return {
                         onClick: (e, handleOriginal) => {
-                          props.dispatch(customerToUpdate(rowInfo.original))
+                          if(event.target.tagName == 'DIV') {
+                            props.dispatch(customerToUpdate(rowInfo.original))
+                          }
                           // IMPORTANT! React-Table uses onClick internally to trigger
                           // events like expanding SubComponents and pivots.
                           // By default a custom 'onClick' handler will override this functionality.
