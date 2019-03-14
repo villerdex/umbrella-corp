@@ -35,6 +35,7 @@
     "redux-saga": "^0.16.2"
   },
   "scripts": {
-    "start": "webpack-dev-server --mode development --open "
+    "start": "webpack-dev-server --mode development --open ",
+    "build": "webpack --mode production"
   }
 }
