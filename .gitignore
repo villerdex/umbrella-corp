@@ -1,9 +1,8 @@
 /dist
-/node_modules
-/app/env_umbrella
-/ui/node_modules
-app/db.sqlite3
+ui/main/node_modules
+app/main/env_umbrella
+app/main/db.sqlite3
 app/.idea
 .vscode/
-/app/rest/__pycache__
-/app/rest/migrations
+/app/main/rest/__pycache__
+/app/main/rest/migrations
