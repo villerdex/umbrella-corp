@@ -1,6 +1,6 @@
 # umbrella-corp
 
-Simple CRUD with monitoring using reactjs and django bootstrap with docker
+Simple company rain weather CRUD with monitoring using reactjs and django bootstrap with docker
 
  make sure to have docker on your machine
 
