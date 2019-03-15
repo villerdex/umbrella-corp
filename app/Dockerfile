@@ -1,13 +1,11 @@
-FROM python:3.4
+FROM python:alpine3.8
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /app/main
+COPY main/ /app/main
+COPY requirement.txt /app/main
+RUN pip install -r requirement.txt
 
-WORKDIR /app/app
-COPY requirements.txt /app/app
-RUN pip install -r requirements.txt
+RUN ls -al
 
 EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,9 +1,10 @@
-FROM node
+FROM node:8.15.1-alpine
 
-WORKDIR /app/ui
-COPY package.json /app/ui
+WORKDIR /ui
+COPY /main /ui
+COPY main/package.json /ui
 
-RUN npm install
+RUN yarn install
 
 EXPOSE 8080
 CMD ["npm", "start"]
